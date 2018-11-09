@@ -1,0 +1,14 @@
+/* two-column.less | version: 1.0 */
+
+@import "mixins.less";
+@listing-left-width: @leftDefault;  /* percentage out where 1 = 100% */
+@listing-right-width: @rightDefault;
+
+.right-side {
+    width: percentage(@listing-right-width);
+    float: right;
+}
+
+.left-side {
+    width: percentage(@listing-left-width);
+}

@@ -1,0 +1,326 @@
+/* mixins.less | version: 1.0 */
+
+/* documentation
+-------------------------------------------------------
+
+  https://fortawesome.github.io/Font-Awesome/icons/
+  https://fortawesome.github.io/Font-Awesome/cheatsheet/
+
+  https://github.com/billerickson/Display-Posts-Shortcode/wiki
+
+  https://wordpress.org/plugins/lessify-wp/
+
+------------------------------------------------------- */
+
+
+/* Fonts
+------------------------------------------------------- */
+/* @import url(https://fonts.googleapis.com/css?family=Oxygen:400,300,700); */  /* font-family: 'Oxygen', sans-serif; */
+/* ---------------------------------------------------- */
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,300,700);  /* font-family: 'Open Sans', sans-serif; */
+@import url(https://fonts.googleapis.com/css?family=Montserrat:400,700);                         /* Headlines font-family: 'Montserrat', sans-serif; */
+@import url(https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic);      /* font-family: 'Open Sans Condensed', sans-serif; */
+
+.fontBody { font-family: 'Open Sans', sans-serif; }
+.font2L { font-family: 'Open Sans Condensed', sans-serif; font-weight: 100; }
+.font2B { font-family: 'Open Sans Condensed', sans-serif; font-weight: 700; }
+.fontHeaders { font-family: 'Montserrat', sans-serif; }
+.fontAwesome {font-family: FontAwesome;}
+
+/* Containing Width
+------------------------------------------------------- */
+@contain: 1200px;
+.contain{
+  width: 1200px;
+  max-width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@leftDefault: .65;
+@rightDefault: .31;
+
+/* LESS - Text
+------------------------------------------------------- */
+@bodyText: 14;
+.font-size(@sizeValue: @bodyText) { 
+  @pxValue: @sizeValue;
+  @remValue: (@sizeValue / @bodyText);
+  font-size: ~"@{pxValue}px"; 
+  font-size: ~"@{remValue}rem";
+}
+@bodyH6: (@bodyText + 2);
+@bodyH5: (@bodyText + 2);
+@bodyH4: (@bodyText + 3);
+@bodyH3: (@bodyText + 6);
+@bodyH2: (@bodyText + 10);
+@bodyH1: (@bodyText + 16);
+
+
+/* LESS - Colors
+------------------------------------------------------- */
+@colorBlack: #131313;
+@colorBlackL: #2c2c2c;
+@colorWhite: #ffffff;
+@colorBlueL: #00ADEF;
+@colorBlue: #008BD0;
+@colorBlueD: #0067AA;
+@colorOrange: #F18904;
+@colorGreen: #73bf44;
+@colorGrayL: #f0f0f0;
+@colorGray2: #ccc;
+@colorGray: #8D8D8D;
+@colorGrayD: #999999;
+.gradient-paginate{
+background: rgb(249,249,249); /* Old browsers */
+background: -moz-linear-gradient(top,  rgba(249,249,249,1) 0%, rgba(234,234,234,1) 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(249,249,249,1)), color-stop(100%,rgba(234,234,234,1))); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  rgba(249,249,249,1) 0%,rgba(234,234,234,1) 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  rgba(249,249,249,1) 0%,rgba(234,234,234,1) 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  rgba(249,249,249,1) 0%,rgba(234,234,234,1) 100%); /* IE10+ */
+background: linear-gradient(to bottom,  rgba(249,249,249,1) 0%,rgba(234,234,234,1) 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f9f9f9', endColorstr='#eaeaea',GradientType=0 ); /* IE6-9 */
+}
+@colorT: transparent;
+
+
+@colorImgBorder: @colorT;
+
+@colorLink: @colorBlueD;
+@colorLinkH: @colorBlack;
+
+@colorButton: @colorOrange;
+@colorButtonH: @colorBlueD;
+@colorButtonTxt: @colorWhite;
+@colorButtonTxtH: @colorWhite;
+
+@colorHeaderLink: @colorWhite;
+@colorHeaderLinkH: @colorBlueL;
+
+@colorNavLink: @colorBlue;
+@colorNavLinkH: @colorWhite;
+@colorNavBg: @colorT;
+@colorNavBgH: @colorT;
+
+@colorNavSubMenuLink: @colorWhite;
+@colorNavSubMenuLinkH: @colorWhite;
+@colorNavSubMenuBg: @colorBlueL;
+@colorNavSubMenuBgH: @colorBlue;
+
+@colorFootLink: @colorBlueL;
+@colorFootLinkH: @colorBlue;
+
+.obgradient{
+  background: #086fcb; /* Old browsers */
+  background: -moz-linear-gradient(top,  #086fcb 16%, #0850a4 40%, #053581 58%, #03236c 74%, #131313 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(16%,#086fcb), color-stop(40%,#0850a4), color-stop(58%,#053581), color-stop(74%,#03236c), color-stop(100%,#131313)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,  #086fcb 16%,#0850a4 40%,#053581 58%,#03236c 74%,#131313 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top,  #086fcb 16%,#0850a4 40%,#053581 58%,#03236c 74%,#131313 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top,  #086fcb 16%,#0850a4 40%,#053581 58%,#03236c 74%,#131313 100%); /* IE10+ */
+  background: linear-gradient(to bottom,  #086fcb 16%,#0850a4 40%,#053581 58%,#03236c 74%,#131313 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#086fcb', endColorstr='#131313',GradientType=0 ); /* IE6-9 */
+}
+
+.placeholderColor(@pcolor: @colorBlueL){
+  ::-webkit-input-placeholder { /* WebKit browsers */
+    color: @pcolor;
+  }
+  :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color: @pcolor;
+    opacity:  1;
+  }
+  ::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color: @pcolor;
+    opacity:  1;
+  }
+  :-ms-input-placeholder { /* Internet Explorer 10+ */
+    color: @pcolor;
+  }
+}
+
+
+@numberInstagramPhotos: 12;
+    /* Automatically calculated from above inputs */
+    @totalInstagramNumber: @numberInstagramPhotos + 1;
+    @instagramFeedWidth: @numberInstagramPhotos / @totalInstagramNumber;
+    @instagramIconWidth: 1 / @totalInstagramNumber;
+
+
+/* LESS - Shadows
+------------------------------------------------------- */
+.textShadowW { text-shadow: 0px 1px 1px rgba(255,255,255,1); }
+.textShadowB { text-shadow: 0px 1px 1px rgba(0,0,0,.1); }
+.boxShadowM { box-shadow: 0px 1px 2px rgba(0,0,0,.3); }
+.boxShadowMI { box-shadow: inset 0px 1px 2px rgba(0,0,0,.3); }
+.boxShadowD { box-shadow: 0px 1px 2px rgba(0,0,0,.7); }
+
+
+/* LESS - Mixins
+------------------------------------------------------- */
+.animateHover (@speed: .5s) {
+	-moz-transition: all @speed ease-in-out;
+	-webkit-transition: all@speed ease-in-out;
+	transition: all @speed ease-in-out;
+}
+
+.borderRadius (@topright: 4px, @bottomright: 4px, @bottomleft: 4px, @topleft: 4px) {
+	border-top-right-radius: @topright;
+	border-bottom-right-radius: @bottomright;
+	border-bottom-left-radius: @bottomleft;
+	border-top-left-radius: @topleft;
+}
+
+.boxSizing {
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.scale(@scale:1.02){
+  -ms-transform: scale(@scale);
+  -webkit-transform: scale(@scale);
+  transform: scale(@scale);
+}
+
+.rotate(@rotate:180){
+	-webkit-transform: rotate(@rotate + deg);
+	-moz-transform: rotate(@rotate + deg);
+	-ms-transform: rotate(@rotate + deg);
+	-o-transform: rotate(@rotate + deg);
+	transform: rotate(@rotate + deg);
+}
+
+.vertical-align {
+  position: relative;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+/* Flexbox - Mixins
+------------------------------------------------------- */
+/* Flexbox display
+// flex or inline-flex*/
+.flex-display(@display: flex) {
+  display: -webkit-box;            /* OLD - iOS 6-, Safari 3.1-6 */
+  display: -moz-box;               /* OLD - Firefox 19- (buggy but mostly works) */
+	display: ~"-webkit-@{display}";  /* NEW - Chrome */
+	display: ~"-moz-@{display}";     /* Old - Firefox */
+	display: ~"-ms-@{display}box";   /* IE10 uses -ms-flexbox */
+	display: ~"-ms-@{display}";      /* IE11 */
+	display: @display;               /* NEW, Spec - Opera 12.1, Firefox 20+ */
+}
+/*/ The 'flex' shorthand
+// - applies to: flex items
+// <positive-number>, initial, auto, or none*/
+.flex(@columns: initial) {
+  -webkit-box-flex: @columns; /* OLD - iOS 6-, Safari 3.1-6 */
+     -moz-box-flex: @columns; /* OLD - Firefox 19- (buggy but mostly works) */
+      -webkit-flex: @columns;
+         -moz-flex: @columns;
+          -ms-flex: @columns;
+              flex: @columns;
+}
+/*/ Flex Flow Direction
+// - applies to: flex containers
+// row | row-reverse | column | column-reverse*/
+.flex-direction(@direction: row) {
+  -webkit-flex-direction: @direction;
+     -moz-flex-direction: @direction;
+      -ms-flex-direction: @direction;
+          flex-direction: @direction;
+}
+/*/ Flex Line Wrapping
+// - applies to: flex containers
+// nowrap | wrap | wrap-reverse*/
+.flex-wrap(@wrap: nowrap) {
+  -webkit-flex-wrap: @wrap;
+     -moz-flex-wrap: @wrap;
+      -ms-flex-wrap: @wrap;
+          flex-wrap: @wrap;
+}
+/*/ Flex Direction and Wrap
+// - applies to: flex containers
+// <flex-direction> || <flex-wrap>*/
+.flex-flow(@flow) {
+  -webkit-flex-flow: @flow;
+     -moz-flex-flow: @flow;
+      -ms-flex-flow: @flow;
+          flex-flow: @flow;
+}
+/*/ Display Order
+// - applies to: flex items
+// <integer>*/
+.flex-order(@order: 0) {
+-webkit-box-ordinal-group: @order;   /* OLD - iOS 6-, Safari 3.1-6 */
+   -moz-box-ordinal-group: @order;   /* OLD - Firefox 19- (buggy but mostly works) */
+            -webkit-order: @order;
+               -moz-order: @order;
+                -ms-order: @order;
+                    order: @order;
+}
+/*/ Flex grow factor
+// - applies to: flex items
+// <number>*/
+.flex-grow(@grow: 0) {
+  -webkit-flex-grow: @grow;
+     -moz-flex-grow: @grow;
+      -ms-flex-grow: @grow;
+          flex-grow: @grow;
+}
+/*/ Flex shr
+// - applies to: flex itemsink factor
+// <number>*/
+.flex-shrink(@shrink: 1) {
+  -webkit-flex-shrink: @shrink;
+     -moz-flex-shrink: @shrink;
+      -ms-flex-shrink: @shrink;
+          flex-shrink: @shrink;
+}
+/*/ Flex basis
+// - the initial main size of the flex item
+// - applies to: flex itemsnitial main size of the flex item
+// <width> */
+.flex-basis(@width: auto) {
+  -webkit-flex-basis: @width;
+     -moz-flex-basis: @width;
+      -ms-flex-basis: @width;
+          flex-basis: @width;
+}
+/*/ Axis Alignment
+// - applies to: flex containers
+// flex-start | flex-end | center | space-between | space-around */
+.justify-content(@justify: flex-start) {
+  -webkit-justify-content: @justify;
+     -moz-justify-content: @justify;
+      -ms-justify-content: @justify;
+          justify-content: @justify;
+}
+/*/ Packing Flex Lines
+// - applies to: multi-line flex containers
+// flex-start | flex-end | center | space-between | space-around | stretch */
+.align-content(@align: stretch) {
+  -webkit-align-content: @align;
+     -moz-align-content: @align;
+      -ms-align-content: @align;
+          align-content: @align;
+}
+/*/ Cross-axis Alignment
+// - applies to: flex containers
+// flex-start | flex-end | center | baseline | stretch */
+.align-items(@align: stretch) {
+  -webkit-align-items: @align;
+     -moz-align-items: @align;
+      -ms-align-items: @align;
+          align-items: @align;
+}
+/*/ Cross-axis Alignment
+// - applies to: flex items
+// auto | flex-start | flex-end | center | baseline | stretch */
+.align-self(@align: auto) {
+  -webkit-align-self: @align;
+     -moz-align-self: @align;
+      -ms-align-self: @align;
+          align-self: @align;
+}

@@ -1,0 +1,199 @@
+/* listing-view.less | version: 1.0 */
+
+@import "mixins.less";
+
+@image-width: 210px;
+@image-height: 160px;
+@listing-left-width: @leftDefault;  /* percentage out where 1 = 100% */
+@listing-right-width: @rightDefault;
+/* Automatically calculated from above inputs */
+@listing-margin-between: 1 - @listing-left-width - @listing-right-width ;
+
+span.featured {
+    font-size: small;
+    font-weight: bold;
+    color: #333;
+    padding:0 0 5px;
+    display:inline-block;
+}
+.listings-area{
+  .listings-wrap{
+    overflow: hidden;
+    .landing-heading-area{
+      .boxSizing;
+      float: left;
+      width: percentage(@listing-left-width);
+      .boxSizing;
+      overflow: hidden;
+      max-width: 100%;
+      .landing-heading-wrap{
+        .landing-headline{
+          h2{
+            .font-size(30);
+            font-weight: 100;
+            margin-bottom: 20px;
+          }
+        }
+        .landing-content-area{
+          .font-size(18);
+          margin-bottom: 0;
+          line-height: 2;
+          overflow: hidden;
+        }
+      }
+    }
+    .listing-left{
+      float: left;
+      width: percentage(@listing-left-width);
+      .boxSizing;
+      overflow: hidden;
+      max-width: 100%;
+      .listing-item{
+        margin-bottom: 25px;
+        clear: both;
+        width: 100%;
+        .boxSizing;
+        overflow: hidden;
+        .listing-item-wrap{
+          overflow: hidden;
+          .listing-image{
+            float: left;
+            position: relative;
+            width: @image-width;
+            height: @image-height;
+            margin-bottom: -3px;
+            overflow: hidden;
+            .boxSizing;
+            .list-number{
+              position: absolute;
+              z-index: 1;
+              left: 4px;
+              top: 4px;
+              background: @colorBlueL;
+              .font-size(18);
+              line-height: 20px;
+              text-align: center;
+              min-width: 20px;
+              padding: 0 4px;
+              color: @colorWhite;
+            }
+            img{
+              width: 100%;
+              height: auto;
+            }
+          }
+          .listing-content-area{
+            position: relative;
+            float: right;
+            height: @image-height;
+            width: ~'calc(100% - '@image-width ~')';
+            padding: 20px;
+            border: 1px solid @colorGray2;
+            font-weight: 600;
+            .boxSizing;
+            .listing-title{
+              h3{
+                color: @colorBlueD;
+              }
+            }
+            .listing-content{
+              .font-size(14);
+              a{
+                color: @colorOrange;
+                font-weight: 400;
+                &:hover{
+                  color: @colorBlueL;
+                }
+              }
+              a.site-link{
+                
+              }
+              a.directions-link{
+                
+              }
+            }
+          }
+        }
+        .featured-biz-text{
+          clear: both;
+          width: 100%;
+          font-weight: 700;
+          color: @colorGray2;
+          .font-size(15);
+        }
+      }
+      .pagination{
+        ul{
+          li{
+            &:before{
+              display: none;
+            }
+            span{
+              a{
+                &:hover{
+                
+                }
+              }
+              &.current{
+                
+              }
+            }
+          }
+        }
+      }
+    }
+    .listing-right{
+      float: right;
+      width: percentage(@listing-right-width);
+      margin-left: percentage(@listing-margin-between);
+      max-width: 100%;
+      .maps{
+        max-width: 100%;
+      }
+    }
+  }
+}
+@media only screen and (max-width: 640px) {
+  .listings-area .listings-wrap .landing-heading-area{
+    width: 100%;
+  }
+  .listings-area .listings-wrap .listing-left {
+    width: 50%;
+  }
+
+  .listings-area .listings-wrap .listing-left .listing-item .listing-item-wrap .listing-image{
+      margin: 0 0 0px;
+  }
+  .listings-area .listings-wrap .listing-left .listing-item .listing-item-wrap .listing-content-area{
+    position: relative;
+    float: none;
+    clear: both;
+    width: 210px;
+    border-top: 0;
+    height: auto;
+    min-height: 160px;
+  }
+  .listings-area .listings-wrap .listing-right {
+    width: 46%;
+    max-width: 100%;
+  }
+}
+@media only screen and (max-width: 480px) {
+  .listings-area .listings-wrap .listing-left {
+    width: 100%;
+  }
+  .listings-area .listings-wrap .listing-left .listing-item{
+    width: 50%;
+    min-width: 210px;
+    margin: 0 auto 15px;
+  }
+  .listings-area .listings-wrap .listing-right {
+    width: 370px;
+    max-width: 100%;
+    margin: 0 auto 10px;
+    float: none;
+  }
+  .pagination ul li {
+    margin: 0 0 10px;
+  }
+}

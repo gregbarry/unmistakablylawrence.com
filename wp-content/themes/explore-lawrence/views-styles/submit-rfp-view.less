@@ -1,0 +1,36 @@
+/* submit-rfp-view.less | version: 1.0 */
+
+@import "mixins.less";
+
+
+
+@full-width-view-width: 650px;
+  .entry-content{
+      width: @full-width-view-width;
+      max-width: 100%;
+      margin: 50px auto 0;
+      
+      input[type=text], textarea, select{
+        border: solid 2px @colorBlueL !important;
+        border-radius: 0px;
+        box-shadow: none;
+    }
+    ul li:before{
+      display:none;
+    }
+  }
+@media only screen and (max-width: 768px) { 
+  .entry-content .sv_api_form td {
+    display: block;
+  }
+  table.sv_api_section_tbl {
+    table-layout: fixed;
+    width: 100%;
+  }
+  .entry-content select, .entry-content select.sv_api_select, .entry-content textarea {
+    max-width: 99%;
+  }
+  span.sv_api_hint {
+    display: block;
+  }
+}

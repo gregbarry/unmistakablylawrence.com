@@ -1,0 +1,58 @@
+@import "mixins.less";
+
+.flex-container {
+  margin-bottom: 50px;
+  .flexslider {
+    opacity: 0;
+    transition: opacity .3s;
+    max-height: 400px !important;
+    width: 780px;
+    border: none;
+    box-shadow: none;
+    margin: 0;
+    .flex-viewport {
+      max-height: 100% !important;
+      .slides {
+        max-height: 100% !important;
+        list-style-type: none !important;
+        .slide {
+          max-height: 100%;
+          height: 100%;
+          overflow: hidden;
+          .slide-wrap {
+            height: 400px;
+            width: 100%;
+            img {
+              width: auto !important;
+              /* max-height: 100%; */
+              margin: 0 auto;
+              .vertical-align;
+            }
+          }
+        }
+      }
+    }
+    .flex-direction-nav {
+      .flex-prev {
+        opacity: 1;
+        left: 0 !important;
+      }
+      .flex-next {
+        opacity: 1;
+        right: 0 !important;
+      }
+    }
+  }
+}
+.flex-container {
+  ul {
+    li {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    }
+    li:before {
+        content: none !important;
+    }
+  }
+}

@@ -1,0 +1,247 @@
+/* event-listing-view.less | version: 1.0 */
+
+@import "mixins.less";
+
+@event-image-width: 210px;
+@event-image-height: 160px;
+
+/* percentage out where 1 = 100% */
+/* to default to the rest of the site set values to @leftDefault and @rightDefault */
+@event-left-width: @leftDefault;
+@event-right-width: @rightDefault;
+
+/* Automatically calculated from above inputs */
+@event-margin-between: 1 - @event-left-width - @event-right-width ;
+.listing-title {
+  pointer-events: all;
+  cursor: pointer;
+}
+.rfp-form-area {
+  input[type=text], textarea, select {
+    border: solid 2px @colorBlueL !important;
+    border-radius: 0px !important;
+    padding: 4px !important;
+    box-shadow: none;
+    overflow-y: scroll !important;
+  }
+  input[type=text]:focus{
+    background: #f0f4f5 !important;
+  }
+}
+ .su-lightbox-content {
+    max-width: 500px;
+    min-width: 240px;
+  }
+.event-listings-area{
+  .listings-wrap-wrap{
+    .listings-left-wrap{
+      float: left;
+      width: percentage(@event-left-width);
+      .boxSizing;
+      overflow: hidden;
+      .landing-heading-area{
+        .boxSizing;
+        .landing-heading-wrap{
+          .landing-headline{
+            h2{
+              .font-size(30);
+              font-weight: 700;
+              margin-bottom: 20px;
+            }
+          }
+          .landing-content-area{
+            .font-size(18);
+            margin-bottom: 25px;
+            line-height: 2;
+            overflow: hidden;
+          }
+        }
+      }
+      .event-listings-title{
+        h2{
+          .font-size(30);
+          font-weight: 700;
+          margin-bottom: 20px;
+        }
+      }
+      .event-listing-item{
+        margin-bottom: 25px;
+        clear: both;
+        width: 100%;
+        .boxSizing;
+        overflow: hidden;
+        .listing-item-wrap{
+          overflow: hidden;
+          border: 1px solid @colorGray2;
+          padding: 10px 0 0 10px;
+          .listing-image{
+            float: left;
+            position: relative;
+            width: @event-image-width;
+            height: @event-image-height;
+            margin-bottom: -3px;
+            overflow: hidden;
+            .boxSizing;
+            .listing-image-wrap{
+              img{
+                width: 100%;
+                height: auto;
+              }
+            }
+          }
+          .listing-content-area{
+            position: relative;
+            float: right;
+            width: ~'calc(100% - '@event-image-width ~')';
+            padding: 5px 15px 0 20px;
+            font-weight: 600;
+            .boxSizing;
+            .listing-title{
+              h3{
+                color: @colorBlueD;
+                margin-bottom: 10px;
+              }
+            }
+            .listing-content{
+              .font-size(14);
+              a{
+                color: @colorOrange;
+                font-weight: 400;
+                &:hover{
+                  color: @colorBlueL;
+                }
+              }
+              a.site-link{
+                display: block;
+                margin-bottom: 10px;
+              }
+              .listing-cats{
+                margin: 10px 0;
+                a{
+                  font-weight: 700;
+                }
+              }
+              .listing-details{
+                .font-size(13);
+                
+              }
+              .more-details{
+                 margin-top: 15px;
+                .detail-item{
+                  &:first-of-type{
+                  }
+                }
+              }
+            }
+            .buttons{
+              margin: 5px 0 15px;
+              .button{
+                display: inline-block;
+              }
+              a.details-link{
+                margin-right: 15px;
+              }
+              a.directions-link{
+                
+              }
+            }
+          }
+        }
+      }
+      .pagination{
+        .pagination-wrap{
+        
+        }
+      }
+    }
+    .listing-right-wrap{
+      float: right;
+      width: percentage(@event-right-width);
+      margin-left: percentage(@event-margin-between);
+      .add-event-link-area{
+        margin-bottom: 59px;
+        .add-event-title{
+          h3{
+            .font-size(30);
+            font-weight: 700;
+            margin-bottom: 20px;
+          }
+        }
+        .add-event-text{
+          .font-size(18);
+          line-height: 2;
+          overflow: hidden;
+          p{
+            margin: 0;
+          }
+        }
+        .add-event-link{
+          color: @colorWhite;
+          text-transform: uppercase;
+          &:hover{
+            color: @colorWhite;
+            text-decoration: none;
+          }
+        }
+      }
+      .events-image{
+        
+      }
+    }
+  }
+}
+
+.event-thumb {
+  max-height: 200px;
+  max-width: 200px;
+  height: auto;
+  width: auto;
+  margin: 10px;
+  box-shadow: 1px 2px 3px 0 rgba(0,0,0,.35);
+  border: 1px solid rgba(50,50,50,.25);
+}
+
+@media only screen and (max-width: 640px) {
+  .event-listings-area .listings-wrap-wrap .listings-left-wrap .landing-heading-area{
+    width: 100%;
+  }
+  .event-listings-area .listings-wrap-wrap .listings-left-wrap {
+    width: 50%;
+  }
+
+  .event-listings-area .listings-wrap-wrap .listings-left-wrap .event-listing-item .listing-item-wrap .listing-image{
+      margin: 0 0 0px;
+  }
+  .event-listings-area .listings-wrap-wrap .listings-left-wrap .event-listing-item .listing-item-wrap .listing-content-area{
+    position: relative;
+    float: none;
+    clear: both;
+    width: 210px;
+    border-top: 0;
+    height: auto;
+    min-height: 160px;
+  }
+  .event-listings-area .listings-wrap-wrap .listing-right-wrap {
+    width: 46%;
+    max-width: 100%;
+  }
+}
+@media only screen and (max-width: 480px) {
+  .event-listings-area .listings-wrap-wrap .listings-left-wrap {
+    width: 100%;
+  }
+  .event-listings-area .listings-wrap-wrap .listings-left-wrap .event-listing-item{
+    width: 50%;
+    min-width: 210px;
+    margin: 0 auto 15px;
+  }
+  .event-listings-area .listings-wrap-wrap .listing-right-wrap {
+    width: 370px;
+    max-width: 100%;
+    margin: 0 auto 10px;
+    float: none;
+  }
+  .pagination ul li {
+    margin: 0 0 10px;
+  }
+}
