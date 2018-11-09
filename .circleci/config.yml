@@ -8,7 +8,7 @@ jobs:
       - checkout
       - run: zip -r updatedFiles.zip data simpleview wp-content
       - run: scp -o StrictHostKeyChecking=no updatedFiles.zip $SSH_USER@$SSH_URL:/home/unmistakable/public_html/
-      - run: ssh $SSH_USER@$SSH_URL -f 'cd /home/unmistakable/public_html/ && unzip -o updatedFiles.zip'
+      - run: ssh $SSH_USER@$SSH_URL -f 'cd /home/unmistakable/public_html/ && unzip -o updatedFiles.zip && chown -R unmistakable:unmistakable wp-content/themes/explore-lawrence'
       - store_artifacts:
           path:  /tmp/circleci-artifacts/updatedFiles.zip
           
