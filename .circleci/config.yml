@@ -6,4 +6,9 @@ jobs:
     working_directory: ~/ExploreLawrence
     steps:
       - checkout
-
+      - run: zip -r updatedFiles.zip data simpleview wp-content
+      - run: scp -o StrictHostKeyChecking=no updatedFiles.zip $SSH_USER@$SSH_URL:/home/unmistakable/public_html/
+      - run: ssh $SSH_USER@$SSH_URL -f 'cd /home/unmistakable/public_html/ && unzip -o updatedFiles.zip'
+      - store_artifacts:
+          path:  /tmp/circleci-artifacts/updatedFiles.zip
+          
