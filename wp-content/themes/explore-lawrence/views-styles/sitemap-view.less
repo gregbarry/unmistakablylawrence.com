@@ -1,0 +1,39 @@
+/* weather-view.less | version: 1.0 */
+@import "mixins.less";
+.expand-button.plus:before, .expand-button.minus:before{
+  font-size: 30px;
+  position: absolute;
+}
+.entry-content ul li:before{
+  display: none;
+}
+.expand-button.plus:before{
+  content: '+';
+  top: -15px;
+  left: 2px;
+}
+.expand-button.minus:before{
+  content: '-';
+  top: -17px;
+  left: 5px;
+}
+.expand-button{
+  display:inline-block;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  background: @colorOrange;
+  color: @colorWhite;
+  position: relative;
+  vertical-align: middle;
+  border-radius: 4px;
+  margin: 5px;
+  box-shadow: inset 0px 1px 2px rgba(0,0,0,0.3);
+  .animateHover(.5s);
+  &:hover{
+    background: @colorBlueL;
+  }
+}
+.accord a {
+  vertical-align: middle;
+}

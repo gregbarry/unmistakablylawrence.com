@@ -1,0 +1,66 @@
+/* weather-view.less | version: 1.0 */
+@import "mixins.less";
+
+.weather-current{
+  margin: 0 0 15px 0;
+  .w-c-content {
+    overflow: hidden;
+    width: 25%;
+    min-width: 250px;
+    .wu-forecast-wrapper .wu-icon{
+      margin-bottom: 0;
+      height: 90px;
+    }
+    .wu-wrapper div img{
+      margin: 0 auto;
+      display: table;
+    }
+  }
+  .wu-copyright {
+    display: none;
+  }
+}
+.weather-ten-day{
+  .wu-forecast-wrapper .wu-cond-highlow .wu-cond-high{
+    display: block;
+    margin: 0 0 5px;
+  }
+}
+.weather-content-area{
+  .w-climate, .w-average {
+    display: inline-block;
+    vertical-align: top;
+    p{
+      display: none;
+    }
+  }
+  .w-climate{
+    width: 66%;
+    strong {
+      display: block;
+    }
+  }
+  .w-climate-content {
+    display: inline-block;
+    margin: 0 6% 15px 0;
+  }
+} 
+
+@media only screen and (min-width: 280px){
+  .weather-ten-day .wu-simple-forecast-day{
+    min-width: 0;
+    width: 50%;
+  }
+}
+
+@media only screen and (min-width: 620px){
+  .weather-ten-day .wu-simple-forecast-day{
+    width: 17%;
+  }
+}
+
+@media only screen and (min-width: 768px){
+  .weather-ten-day .wu-simple-forecast-day{
+    width: 7%;
+  }
+}

@@ -1,0 +1,386 @@
+/* home-page-view.less | version: 1.0 */
+
+@import "mixins.less";
+
+
+/* converted to percent where 1 = 100% */
+
+@sectionImageWidth: .6;
+@sectionContentWidth: .4;
+
+@sectionWidth: 50%;
+    /* Automatically calculated from above inputs */
+    @mainSliderWidth: ~'calc(100% - ' @sectionWidth ~')';
+    @middleSideWidth: ~'calc((100% - ' @sectionWidth ~')/2)';
+
+.home-padding{
+  padding: 20px 3%;
+}
+
+
+  
+
+@arrowSize: 20px;
+
+
+body{
+  background: @colorBlack;
+  color: @colorWhite;
+}
+.site-inner{
+  width: 100%;
+  max-width: 100%;
+}
+.content{
+  margin: 0;
+}
+.entry-content{
+  position: relative;
+  a.post-edit-link {
+    color: white;
+    position: absolute;
+    bottom: 0;
+  }
+}
+
+
+h2{
+  .font2L;
+  .font-size(38);
+  color: @colorBlueL;
+  text-transform: uppercase;
+  line-height: 1.1;
+}
+.home-middle-left.mobile{
+  display: none;
+}
+.home-page{
+  .home-page-wrap{
+    .font-size(16);
+    .sec-left{
+      float: left;
+      .boxSizing;
+    }
+    .sec-right{
+      float: right;
+      .boxSizing;
+    }
+    .image-side{
+      width: percentage(@sectionImageWidth);
+      height: 211px;
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center center;
+      position: relative;
+      &:before{
+          content: '';
+          position: absolute;
+          top: ~'calc(50% - '@arrowSize ~')';
+        	width: 0; 
+          height: 0; 
+          border-top: @arrowSize solid transparent;
+          border-bottom: @arrowSize solid transparent;
+          
+          border-left: @arrowSize solid @colorBlack;
+      }
+    }
+    .sec-left.image-side{
+      &:before{
+          right: 0;
+          border-left: 0px solid @colorBlack;
+          border-right: @arrowSize solid @colorBlack;
+      }
+    }
+    .content-side{
+      width:  percentage(@sectionContentWidth);
+      .home-padding;
+      .sec-title{
+        h2{
+        
+        }
+      }
+      .sec-content{
+      
+      }
+      .sec-more-link{
+       color: @colorOrange;
+      }
+    }
+    .homesection1{}
+    .homesection2{}
+    .homesection3{}
+    .homesection4{}
+    .homesection5{}
+    .homesection6{}
+    .homesection7{}
+    .home-top{
+      .home-slider{
+        float: left;
+        width: @mainSliderWidth;
+        .boxSizing;
+      }
+      .top-right{
+        float: right;
+        width: @sectionWidth;
+        .boxSizing;
+        .home-section{
+        }
+      }
+    }
+    .home-middle{
+      width: 100%;
+      overflow: hidden;
+      clear: both;
+      .home-middle-center{
+        width: @sectionWidth;
+        .boxSizing;
+        float: left;
+      }
+      .home-middle-left{
+        width: @middleSideWidth;
+        .boxSizing;
+        float: left;
+        background: @colorBlackL;
+        .featured-listing{
+          .featured-listing-img{
+            height: 211px;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center center;
+            position: relative;
+          }
+          .fl-content{
+            position: relative;
+            padding: 25px;
+            background: @colorBlackL;
+              h4{
+                color: @colorBlueL;
+                .font-size(15);
+                margin-bottom: 15px;
+                a{
+                  color: @colorBlueL;
+                  &:hover{
+                    text-decoration: underline;
+                    color: @colorBlueL;
+                  }
+                }
+              }
+            .fl-short-description{
+            
+            }
+            &:before{
+              content: '';
+              border: solid 25px transparent;
+              border-top: 0;
+              border-bottom-color: @colorBlackL;
+              position: absolute;
+              top: -23px;
+              margin-left: 30px;
+            }
+          }
+        }
+      }
+      .home-middle-right{
+        float: right;
+        width: @middleSideWidth;
+        .boxSizing;
+        .upcoming-events-area{
+          .boxSizing;
+          .home-padding;
+          padding-left: 30px;.
+          @media only screen and (max-width: 1250px){
+            
+          }
+          .upcoming-events-title{
+            width: ~'calc(100% - 70px)';
+            max-width: 190px;
+            float: left;
+            h2{
+              
+            }
+          }
+          .upcoming-events-link{
+            float: right;
+            .font-size(13);
+            margin-top: 13px;
+            margin-right: 5px;
+            a{
+              color: @colorWhite;
+              i{
+                text-decoration: none;
+                top: -2px;
+                position: relative;
+                &:hover{
+                  text-decoration: none;
+                }
+              }
+              &:hover{
+                color: @colorWhite;
+                text-decoration: underline;
+              }
+            }
+          }
+          .upcoming-events-list{
+            clear: both;
+            .event-list-wrap{
+              .event-item{
+                margin-bottom: 15px;
+                .event-date{
+                  .font2L;
+                  .font-size(24);
+                  color: @colorBlueL;
+                  margin-bottom: 2px;
+                }
+                .event-title{
+                  .font-size(16);
+                  margin-bottom: 5px;
+                  color: @colorWhite;
+                  font-weight: 700;
+                }
+                .event-location{
+                  .font-size(12);
+                  color: @colorGray;
+                  margin-bottom: 2px;
+                }
+              }
+            }
+          }
+        }
+        .twitter-footer {
+          position: absolute;
+          bottom: 23px;
+          width: ~'calc(100% - 100px)';
+          padding: 0 15px;
+        }
+
+        .twitter-area {
+          position: relative;
+          padding: 30px;
+          .boxSizing;
+          .font-size(18);
+          blockquote{
+            padding: 0;
+          }
+          a {
+            color: @colorWhite;
+            &:hover{
+              color: @colorWhite;
+              text-decoration: underline;
+            }
+          }
+          .twitter-body {
+            padding: 0 15px;
+            text-align: left;
+          }
+          .twitter-author {
+            float: left;
+            font-weight: 600;
+          }
+          .twitter-icon {
+            float: right;
+            .font-size(30);
+            top: -10px;
+            position: relative;
+          }
+          
+        }
+        .twitter-area-1{
+          background: @colorGreen;
+        }
+        .home-mini-slider{
+          
+        }
+        .twitter-area-2{
+          background: @colorOrange;
+        }
+      }
+    }
+  }
+}
+
+
+@media only screen and (max-width: 768px) { 
+  .home-page .home-page-wrap .home-top .home-slider {
+    width: 100%;
+  }
+
+  .home-page .home-page-wrap .home-top .top-right {
+    width: 100%;
+  }
+
+  .home-page .home-page-wrap .content-side {
+    padding: 6px 3%;
+    font-size: 12px;
+  }
+
+  .home-page .home-page-wrap .home-middle .home-middle-left {
+    width: 100%;
+  }
+  .featured-listing.height1 {
+    width: 50%;
+    margin: 0 auto;
+    display: inline-block;
+    vertical-align: top;
+  }
+  .featured-listing.height1:nth-child(5) {
+    display: block;
+  }
+
+  .home-page .home-page-wrap .home-middle .home-middle-center {
+    width: 100%;
+  }
+
+  .home-page .home-page-wrap .home-middle .home-middle-right {
+    width: 100%;
+  }
+
+  .instagram-feed-area {
+    display: none;
+  }
+  .home-page .home-page-wrap .home-middle .home-middle-right .twitter-footer{
+    position: static;
+  }
+  .home-page .home-page-wrap .home-middle .home-middle-right{
+    .home-mini-slider{
+      width: 30%;
+      margin: 0 4.5%;
+      display: inline-block;
+      vertical-align: bottom;
+    }
+    .twitter-area{
+      padding: 20px 8px 40px;
+      width: 30%;
+      display: inline-block;
+      vertical-align: bottom;
+      .twitter-body {
+        padding: 20px 15px;
+      }
+    }
+  }
+  .home-middle-left{
+    display: none;
+  }
+  .home-middle-left.mobile{
+    display: initial;
+  }
+}
+@media only screen and (max-width: 640px) {
+.home-page .home-page-wrap .home-middle .home-middle-right{
+    .home-mini-slider{
+      width: 100%;
+      margin: 0 auto;
+      max-width: 350px;
+      display: block;
+    }
+    .twitter-area{
+      padding: 12px 8px 40px;
+      width: 100%;
+    }
+  }
+}
+@media only screen and (max-width: 480px) {
+  
+  .featured-listing.height1 {
+    width: 100%;
+  }
+}

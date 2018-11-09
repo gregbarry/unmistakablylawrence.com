@@ -1,0 +1,192 @@
+/* meet-landing-view.less | version: 1.0 */
+
+@import "mixins.less";
+
+
+ /* converted to percent where 1 = 100% */
+ 
+@meetSliderWidth: .5;
+@meetFeaturedNumber: 2;
+@meetFeaturedMargin: 30px;
+
+/* Automatically calculated from above inputs */
+@meetFeaturedAreaPercentageWidth: ((1 - @meetSliderWidth ) / @meetFeaturedNumber) ;
+@meetFeaturedAreaWidth: percentage(@meetFeaturedAreaPercentageWidth);
+.meetFeaturedAreaWidth { 
+  width: ~'calc( ' @meetFeaturedAreaWidth ~' - ' @meetFeaturedMargin ~' ) '; 
+  margin-left: @meetFeaturedMargin;
+} 
+
+@columnWidth: .24;
+@columnNumber: 4;
+
+/* Automatically calculated from above inputs */
+@columnNumberMargins: (@columnNumber - 1);
+@columnsWidth: (@columnWidth * @columnNumber);
+@columnsMargin: ((1 - @columnsWidth) / @columnNumberMargins);
+
+@iconWidth: 63px;
+@iconMargin: 15px;
+@columnRightWidth: @iconWidth + @iconMargin;
+
+.meet-landing{
+  margin-top: 30px;
+  .meet-wrap{
+    a{
+      color: @colorOrange;
+      &:hover{
+        color: @colorOrange;
+        text-decoration: underline;
+      }
+    }
+    .meet-top{
+      border-bottom: 1px solid #EDEDED;
+      overflow: hidden;
+      margin-bottom: 30px;
+      .meet-slider{
+        width: percentage(@meetSliderWidth);
+        float: left;
+        overflow: hidden;
+      }
+      .meet-featured-area{
+        float: left;
+        .meetFeaturedAreaWidth;
+        .featured-area-image{
+          max-height: 270px;
+          overflow: hidden;
+          margin-bottom: 10px;
+          position: relative;
+          background-size: cover;
+          background-position: center;
+          &:after{
+            content: '';
+            border: solid 14px transparent;
+            border-top: 0;
+            border-bottom-color: @colorWhite;
+            position: absolute;
+            bottom: 0px;
+            margin-left: ~'calc(50% - 7px)';
+          }
+        }
+        .title{
+          h2{
+              font-family: 'Open Sans Condensed', sans-serif;
+              color: rgb(0, 173, 239);
+              font-weight: normal;
+          }
+        }
+        .content-area{
+        
+        }
+        a{
+        
+        }
+      }
+    }
+    .meet-bottom{
+      width: 100%;
+      clear: both;
+      .columns-area{
+        width: 100%;
+        overflow: hidden;
+        .boxSizing;
+        .column-area{
+          .boxSizing;
+          width: percentage(@columnWidth);
+          float: left;
+          &:nth-child(1n + 2){
+            margin-left: percentage(@columnsMargin);
+          }
+          h2 {
+            font-size: 17px;
+            font-weight: bold;
+          }
+          a {
+            font-weight: normal;
+          }
+          .icon{
+            padding-top: 6px;
+            width: @iconWidth;
+            float: left;
+            img{
+            }
+          }
+          .column-right{
+            width: ~'calc(100% - ' @columnRightWidth ~')';
+            float: right;
+            .boxSizing;
+            .title{
+              h2{
+              
+              }
+            }
+            .content-area{
+
+            }
+            a{
+            
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 1000px){
+  /*.meet-landing .meet-wrap {
+  .meet-top{
+    .meet-slider{
+      width: 100%;
+    }
+    .featured-area-image{
+      width: 48%;
+      margin-left: 0;
+      &:nth-child(2n + 2){
+        margin-left: 2%;
+      }
+    }
+  }
+    .meet-bottom {
+      .columns-area{ 
+        .column-area{
+          width: 48%;
+          &:nth-child(1n + 2){
+            margin-left: 0;
+          }
+          &:nth-child(2n + 3){
+            clear: both;
+          }
+          &:nth-child(1n + 3){
+            margin-top: 25px;
+          }
+          &:nth-child(2n + 2){
+            margin-left: 2%;
+          }
+        }
+      }
+    }
+  }*/
+}
+@media only screen and (max-width: 640px){
+  .meet-landing .meet-wrap .meet-top {
+    padding: 0 0 10px;
+    .meet-featured-area{
+      width: 100%;
+      margin: 0;
+      .featured-area-image {
+        width: 100%;
+      }
+    }
+    .meet-slider{
+      float: none;
+      margin: 0 auto 15px;
+      width: 100%;
+    }
+  }
+  .meet-landing .meet-wrap .meet-bottom .columns-area .column-area {
+    width: 100%;
+    margin: 15px 0;
+    padding: 0 0 0 5px;
+  }
+}
