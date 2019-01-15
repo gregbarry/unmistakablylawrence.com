@@ -1088,3 +1088,8 @@ p.wp-caption-text {
 	box-sizing: border-box;
 	width:60%;
 }
+
+.amenity-sub-header {
+	font-weight:900;
+	font-style:normal;
+}
