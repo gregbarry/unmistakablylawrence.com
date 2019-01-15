@@ -929,6 +929,18 @@ document.write('<img src="https://pubads.g.doubleclick.net/activity;xsp=635411;o
   }
 }
 
+function composeAmenitySection($list, $title) {
+  $amenitySection = '';
+  if ($list != '') {
+    $amenitySection = '
+      <div class="amenity-sec">
+        <div class="amenity-sec-title">'.$title.' Amenities</div>
+        <ul>' . $list . '</ul>
+      </div>';
+  }
+  return $amenitySection;
+}
+
 // usage: if( is_page('about-us') || is_child('about-us') )
 function is_child( $parent = '' ) {
   global $post;

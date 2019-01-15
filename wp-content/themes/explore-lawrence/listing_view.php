@@ -519,11 +519,11 @@ function listing_view_content_new()
                         $featured = '';
                         $list .= '<div class="listing-item featured">
                 <div class="listing-item-wrap">
-                  <a href="?listingID=' . $listingid . '">
-                  <div class="listing-image">';
-                        $list .= '<img src="' . $image . '" alt="' . $alt . '">
-                  </div>
-                  </a>
+                    <a href="?listingID=' . $listingid . '">
+                        <div class="listing-image">';
+                            $list .= '<img src="' . $image . '" alt="' . $alt . '">
+                        </div>
+                    </a>
                   <div class="listing-content-area">
                   <div class="listing-title">
                   <a href="?listingID=' . $listingid . '">
@@ -804,14 +804,25 @@ function listing_view_content_new()
         $imagesout .= "</ul></div></div>";
         if (!empty($amenities)) {
             $list_of_amenities = '<div class="facility-amenities info-section">
-            <div class="info-title">Amenities</div>
             <div class="info">';
+            $blacklist = ['Bus Route Information'];
+            $boldlist = [
+                'Delivery',
+                'Type of Food',
+                'Dining Cost',
+                'Open For',
+                'Kids Menu',
+                'Motorcoach Parking',
+                'Outdoor Seating',
+                'Private Rooms Available',
+                'Reservations Accepted',
+                'Reservations Required'
+            ];
             $list_of_general_amenities = '';
             $list_of_in_room_amenities = '';
             $list_of_on_site_amenities = '';
             $list_of_group_dining_amenities = '';
             $list_of_dining_amenities = '';
-            $list_of_pricing_amenities = '';
             $list_of_accessibility_amenities = '';
             $list_of_other_amenities = '';
             foreach ($amenities as $amenity) {
@@ -833,32 +844,49 @@ function listing_view_content_new()
                 } else {
                     $multi_value = '';
                 }
-                if ($amenity->group_name == 'General') {
-                    $list_of_general_amenities .= '<li class="amenity-title">' . $amenity->name . $multi_value . '</li>';
-                } else if ($amenity->group_name == 'In-Room') {
-                    $list_of_in_room_amenities .= '<li class="amenity-title">' . $amenity->name . $multi_value . '</li>';
-                } else if ($amenity->group_name == 'On-Site') {
-                    $list_of_on_site_amenities .= '<li class="amenity-title">' . $amenity->name . $multi_value . '</li>';
-                } else if ($amenity->group_name == 'Group Dining') {
-                    $list_of_group_dining_amenities .= '<li class="amenity-title">' . $amenity->name . $multi_value . '</li>';
-                } else if ($amenity->group_name == 'Dining') {
-                    $list_of_dining_amenities .= '<li class="amenity-title">' . $amenity->name . $multi_value . '</li>';
-                } else if ($amenity->group_name == 'Pricing') {
-                    $list_of_pricing_amenities .= '<li class="amenity-title">' . $amenity->name . $multi_value . '</li>';
-                } else if ($amenity->group_name == 'Accessibility') {
-                    $list_of_accessibility_amenities .= '<li class="amenity-title">' . $amenity->name . $multi_value . '</li>';
-                } else {
-                    $list_of_other_amenities .= '<li class="amenity-title">' . $amenity->name . $multi_value . '</li>';
+
+                $name = $amenity->name;
+                $formattedName = in_array($name, $boldlist) ? '<span class="amenity-sub-header">'.$name.'</span>' : $name;
+                $groupName = $amenity->group_name;
+                $nameWithValue = $formattedName . $multi_value;
+                $amenityEntity = '<li class="amenity-title">' . $nameWithValue . '</li>';
+
+                if (!in_array($name, $blacklist)) {
+                    switch ($groupName) {
+                        case 'General':
+                            $list_of_general_amenities .= $amenityEntity;
+                            break;
+                        case 'In-Room':
+                            $list_of_in_room_amenities .= $amenityEntity;
+                            break;
+                        case 'On-Site':
+                            $list_of_on_site_amenities .= $amenityEntity;
+                            break;
+                        case 'Group Dining':
+                            $list_of_group_dining_amenities .= $amenityEntity;
+                            break;
+                        case 'Dining':
+                            $list_of_dining_amenities .= $amenityEntity;
+                            break;
+                        case 'Accessibility':
+                            $list_of_accessibility_amenities .= $amenityEntity;
+                            break;
+                        case 'Pricing':
+                            // Pricing intentionally left without a destination
+                            break;
+                        default:
+                            $list_of_other_amenities .= $amenityEntity;
+                    }
                 }
             }
-            $list_of_amenities .= ($list_of_general_amenities != '') ? '<div class="amenity-sec"><div class="amenity-sec-title">General Amenities</div><ul>' . $list_of_general_amenities . '</ul></div>' : '';
-            $list_of_amenities .= ($list_of_in_room_amenities != '') ? '<div class="amenity-sec"><div class="amenity-sec-title">In Room Amenities</div><ul>' . $list_of_in_room_amenities . '</ul></div>' : '';
-            $list_of_amenities .= ($list_of_on_site_amenities != '') ? '<div class="amenity-sec"><div class="amenity-sec-title">On Site Amenities</div><ul>' . $list_of_on_site_amenities . '</ul></div>' : '';
-            $list_of_amenities .= ($list_of_group_dining_amenities != '') ? '<div class="amenity-sec"><div class="amenity-sec-title">Group Dining Amenities</div><ul>' . $list_of_group_dining_amenities . '</ul></div>' : '';
-            $list_of_amenities .= ($list_of_dining_amenities != '') ? '<div class="amenity-sec"><div class="amenity-sec-title">Dining Amenities</div><ul>' . $list_of_dining_amenities . '</ul></div>' : '';
-            $list_of_amenities .= ($list_of_pricing_amenities != '') ? '<div class="amenity-sec"><div class="amenity-sec-title">Pricing Amenities</div><ul>' . $list_of_pricing_amenities . '</ul></div>' : '';
-            $list_of_amenities .= ($list_of_accessibility_amenities != '') ? '<div class="amenity-sec"><div class="amenity-sec-title">Accessibility Amenities</div><ul>' . $list_of_accessibility_amenities . '</ul></div>' : '';
-            $list_of_amenities .= ($list_of_other_amenities != '') ? '<div class="amenity-sec"><div class="amenity-sec-title">Other Amenities</div><ul>' . $list_of_other_amenities . '</ul></div>' : '';
+
+            $list_of_amenities .= composeAmenitySection($list_of_general_amenities, 'General');
+            $list_of_amenities .= composeAmenitySection($list_of_in_room_amenities, 'In-Room');
+            $list_of_amenities .= composeAmenitySection($list_of_on_site_amenities, 'On-Site');
+            $list_of_amenities .= composeAmenitySection($list_of_group_dining_amenities, 'Group Dining');
+            $list_of_amenities .= composeAmenitySection($list_of_dining_amenities, 'Dining');
+            $list_of_amenities .= composeAmenitySection($list_of_accessibility_amenities, 'Accessibility');
+            $list_of_amenities .= composeAmenitySection($list_of_other_amenities, 'Other');
             $list_of_amenities .= '</div></div>';
         } else {
             $list_of_amenities = '';
@@ -897,30 +925,28 @@ function listing_view_content_new()
         }
         if (!empty($coupons)) {
             $deals_area = '<div class="deals-area">
-          <div class="deals-title">
-            <h4>Deals</h4>
-          </div>
-          <div class="deals">';
+            <div class="deals-title">
+                <h4>Deals</h4>
+            </div>
+            <div class="deals">';
+                foreach ($coupons as $deals) {
+                    $offer_title = ($deals->offertitle != NULL) ? $deals->offertitle : '';
+                    $offer_img = ($deals->thumbfile != NULL) ? $deals->imgpath . $deals->thumbfile : '';
+                    $offer_img_full = ($deals->mediafile != NULL) ? $deals->imgpath . $deals->mediafile : '';
+                    $offer_alt = ($deals->medianame != NULL) ? $deals->medianame : 'Offer Featured Image';
+                    $offer_text = ($deals->offertext != NULL) ? $deals->offertext : '';
+                    $offer_link = ($deals->offerlink != NULL) ? $deals->offerlink : '';
 
-
-            foreach ($coupons as $deals) {
-                $offer_title = ($deals->offertitle != NULL) ? $deals->offertitle : '';
-                $offer_img = ($deals->thumbfile != NULL) ? $deals->imgpath . $deals->thumbfile : '';
-                $offer_img_full = ($deals->mediafile != NULL) ? $deals->imgpath . $deals->mediafile : '';
-                $offer_alt = ($deals->medianame != NULL) ? $deals->medianame : 'Offer Featured Image';
-                $offer_text = ($deals->offertext != NULL) ? $deals->offertext : '';
-                $offer_link = ($deals->offerlink != NULL) ? $deals->offerlink : '';
-
-                $deals_area .= '<div class="deal-item">';
-                $deals_area .= ($offer_title != '') ? '<div class="deal-title">' . $offer_title . '</div>' : '';
-                $deals_area .= ($offer_img_full != '') ? '<a href="' . $offer_img_full . '" target="_blank" class="deal-img-link">' : '';
-                $deals_area .= ($offer_img != '') ? '<img src="' . $offer_img . '" alt="' . $offer_alt . '" class="deal-img">' : '';
-                $deals_area .= ($offer_img_full != '') ? '</a>' : '';
-                $deals_area .= ($offer_link != '') ? '<a href="' . $offer_link . '" target="_blank" class="deal-link">' : '';
-                $deals_area .= ($offer_text != '') ? '<div class="deal-text">' . $offer_text . '</div>' : '';
-                $deals_area .= ($offer_link != '') ? '</a>' : '';
-                $deals_area .= '</div>';
-            }
+                    $deals_area .= '<div class="deal-item">';
+                    $deals_area .= ($offer_title != '') ? '<div class="deal-title">' . $offer_title . '</div>' : '';
+                    $deals_area .= ($offer_img_full != '') ? '<a href="' . $offer_img_full . '" target="_blank" class="deal-img-link">' : '';
+                    $deals_area .= ($offer_img != '') ? '<img src="' . $offer_img . '" alt="' . $offer_alt . '" class="deal-img">' : '';
+                    $deals_area .= ($offer_img_full != '') ? '</a>' : '';
+                    $deals_area .= ($offer_link != '') ? '<a href="' . $offer_link . '" target="_blank" class="deal-link">' : '';
+                    $deals_area .= ($offer_text != '') ? '<div class="deal-text">' . $offer_text . '</div>' : '';
+                    $deals_area .= ($offer_link != '') ? '</a>' : '';
+                    $deals_area .= '</div>';
+                }
             $deals_area .= '</div></div>';
         } else {
             $deals_area = '';
