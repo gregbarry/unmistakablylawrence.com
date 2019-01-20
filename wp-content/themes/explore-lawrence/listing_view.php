@@ -762,35 +762,12 @@ function listing_view_content_new()
         } else {
             $guest_suites = '';
         }
-        if ($listing->facilityinformation_totalsqft != NULL) {
-            $meeting_room_space = '<div class="meeting-space info-spot">
-        <div class="info-title">Total Meeting Room Space</div>
-        <div class="info">' . $listing->facilityinformation_totalsqft . '</div>
-      </div>';
-        } else {
-            $meeting_room_space = '';
-        }
-        if ($listing->facilityinformation_classroom != NULL) {
-            $meeting_room_number = '<div class="meeting-space-number info-spot">
-        <div class="info-title">Number of Meeting Rooms</div>
-        <div class="info">' . $listing->facilityinformation_classroom . '</div>
-      </div>';
-        } else {
-            $meeting_room_number = '';
-        }
-        if (($guest_rooms != '') || ($guest_suites != '') || ($meeting_room_space != '') || ($meeting_room_number != '')) {
+        if (($guest_rooms != '') || ($guest_suites != '')) {
             $info_spot_wrap_open = '<div class="info-section">';
             $info_spot_wrap_close = '</div>';
         } else {
             $info_spot_wrap_open = '';
             $info_spot_wrap_close = '';
-        }
-        if ($listing->facilityinformation_description != NULL) {
-            $facility_description = '<div class="facility-description info-section">
-        <div class="info">' . $listing->facilityinformation_description . '</div>
-      </div>';
-        } else {
-            $facility_description = '';
         }
         $imagesout = '<div class="flex-container"><div class="flexslider" id="slider"><ul class="slides">';
 
@@ -802,6 +779,48 @@ function listing_view_content_new()
             $imagesout .= '<li class="slide"><div class="slide-wrap"><img src="' . $imagesrc . '" alt="' . $alt . '"></div></li>';
         }
         $imagesout .= "</ul></div></div>";
+
+        // Create Facility Information
+        $facilityInfo = '';
+        $meetingRoomsNum = $listing->facilityinformation_numrooms;
+        if ($meetingRoomsNum != NULL) {
+            $facilityDescription = $listing->facilityinformation_description;
+            $totalSqFeet = $listing->facilityinformation_totalsqft;
+            $largestRoom = $listing->facilityinformation_largestroom;
+            $classroomCapacity = $listing->facilityinformation_classroom;
+            $theatreCapacity = $listing->facilityinformation_theatre;
+            $banquetCapacity = $listing->facilityinformation_banquet;
+            $receptionCapacity = $listing->facilityinformation_reception;
+            $exhibitSpace = $listing->facilityinformation_exhibitspace;
+
+            $meetingRoomsNum = $meetingRoomsNum ? '<b>Meeting Rooms:</b> ' . $meetingRoomsNum . '<br/>' : '';
+            $totalSqFeet = $totalSqFeet ? '<b>Total Space (sf):</b> ' . $totalSqFeet . '<br/>' : '';
+            $largestRoom = $largestRoom ? '<b>Largest Room (sf):</b> ' . $largestRoom . '<br/>' : '';
+            $classroomCapacity = $classroomCapacity ? '<b>Theatre Capacity:</b> ' . $classroomCapacity . '<br/>' : '';
+            $theatreCapacity = $theatreCapacity ? '<b>Theatre Capacity:</b> ' . $theatreCapacity . '<br/>' : '';
+            $banquetCapacity = $banquetCapacity ? '<b>Banquet Capacity:</b> ' . $banquetCapacity . '<br/>' : '';
+            $receptionCapacity = $receptionCapacity ? '<b>Reception Capacity:</b> ' . $receptionCapacity . '<br/>' : '';
+            $exhibitSpace = $exhibitSpace ? '<b>Exhibit Space (sf):</b> ' . $exhibitSpace . '<br/>' : '';
+
+            $facilityInfo = '
+                <div class="facility-description">
+                    <div class="info info-section">
+                        <h4>Facility Information</h4>
+                        ' . $facilityDescription . '
+                    </div>
+                    <div class="info">
+                        '.$meetingRoomsNum.'
+                        '.$totalSqFeet.'
+                        '.$largestRoom.'
+                        '.$classroomCapacity.'
+                        '.$theatreCapacity.'
+                        '.$banquetCapacity.'
+                        '.$receptionCapacity.'
+                        '.$exhibitSpace.'
+                    </div>
+                </div>';
+        }
+
         if (!empty($amenities)) {
             $list_of_amenities = '<div class="facility-amenities info-section">
             <div class="info">';
@@ -1091,7 +1110,7 @@ function listing_view_content_new()
             <div class="info">' . $description . '</div>
           </div>
           ' . $info_spot_wrap_open . $guest_rooms . $guest_suites . $meeting_room_space . $meeting_room_number . $info_spot_wrap_close . '
-          ' . $facility_description . '
+          ' . $facilityInfo . '
           ' . $list_of_amenities . '
 			  </div>
 			</div>
