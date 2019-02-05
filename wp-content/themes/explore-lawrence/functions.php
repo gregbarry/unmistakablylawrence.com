@@ -904,6 +904,10 @@ function add_pixel() {
   if ( current_filter() == 'genesis_before' ) {
     ?>
 
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N5NV66K" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
 <script data-obct type="text/javascript">
 /** DO NOT MODIFY THIS CODE**/
 !function(_window, _document) {
