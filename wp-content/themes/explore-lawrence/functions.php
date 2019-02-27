@@ -493,7 +493,7 @@ function cvb_do_instagram() {
   //$instagram = get_field('instagram_shortcode');
   $instagram = '[fts_instagram instagram_id=1402241842 type=user]';
   echo '<div class="home-bottom"><div class="instagram-feed-area"><div class="instagram-icon"><i class="fa fa-instagram"></i></div><div class="instagram-feed">';
-  echo do_shortcode('[fts_instagram instagram_id=1402241842 type=user]');
+  echo do_shortcode('[fts_instagram instagram_id=1402241842 pics_count=20 type=user width=100% profile_wrap=no force_columns=no space_between_photos=1px icon_size=65px hide_date_likes_comments=no]');
   echo '</div></div></div>';
 }
 
@@ -903,6 +903,16 @@ add_action( 'genesis_before', 'add_pixel' );
 function add_pixel() {
   if ( current_filter() == 'genesis_before' ) {
     ?>
+
+<!-- Activity name for this tag: TA_Lawrence_Kansas_Daily Counter_12.01.16 -->
+<script type='text/javascript'>
+var axel = Math.random()+"";
+var a = axel * 10000000000000;
+document.write('<img src="https://pubads.g.doubleclick.net/activity;xsp=635411;ord=1;num='+ a +'?" width=1 height=1 border=0>');
+</script>
+<noscript>
+<img src="https://pubads.g.doubleclick.net/activity;xsp=635411;ord=1;num=1?" width=1 height=1 border=0>
+</noscript>
 
 <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N5NV66K" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
