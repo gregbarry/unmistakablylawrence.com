@@ -1093,3 +1093,12 @@ p.wp-caption-text {
 	font-weight:900;
 	font-style:normal;
 }
+
+.sv_api_section_head {
+	font-size: 2rem;
+	padding-top: 20px;
+}
+
+.sv_api_section_body {
+	font-size: 1.2rem;
+}
