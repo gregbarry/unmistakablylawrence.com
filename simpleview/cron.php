@@ -206,7 +206,7 @@
 		if (strpos($results, '[Error Code]') === FALSE)
 			$wpdb->query("INSERT INTO `sv_temp_forms` (`form_id`,`html`) values ('".$x."','".mysql_escape_mimic($results)."')");
 		else
-			break;
+			continue;
 	}
 
 	// events
