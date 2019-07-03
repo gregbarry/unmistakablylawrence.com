@@ -1106,5 +1106,12 @@ p.wp-caption-text {
 .upcoming-events-area {
 	clear:both;
 	float:left;
-	margin-top:20px;
+	margin-top:10px;
+}
+
+.social-media {
+	clear:both;
+    	float: left;
+    	width: 100%;
+    	margin-bottom: 10px;
 }
