@@ -209,7 +209,7 @@
 			continue;
 	}
 
-	// events
+    	// events
 	$url = 'http://cs.simpleviewinc.com/feeds/events.cfm?apikey=05B4B655-5056-A36A-1C70E499C44CD955';
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_URL, $url);
@@ -221,32 +221,51 @@
 	curl_close($ch);
 	$xml=simplexml_load_string($myXMLData, null, LIBXML_NOCDATA) or die("Error: Cannot create object");
 	$json = json_encode($xml);
-	$eventsArray = json_decode($json,TRUE);
+    	$eventsArray = json_decode($json,TRUE);
+    	$currentTime = time();
+
 	if ($eventsArray["success"] == 'Yes'){
-		$wpdb->query("DELETE FROM `sv_temp_events`");
-		if(!empty($eventsArray["events"]["event"]))
-		foreach($eventsArray["events"]["event"] as $event){
-			$wpdb->query("INSERT INTO `sv_temp_events` (`eventid`,`eventtype`,`title`,`description`,`startdate`,`enddate`,`recurrence`,`times`,`location`,`phone`,`admission`,`website`,`imagefile`,`address`,`city`,`state`,`zip`,`latitude`,`longitude`,`featured`,`listingid`,`starttime`,`endtime`) values ('".mysql_escape_mimic($event["eventid"])."','".mysql_escape_mimic($event["eventtype"])."','".mysql_escape_mimic($event["title"])."','".mysql_escape_mimic($event["description"])."','".str_replace('1970-01-01','',date('Y-m-d', strtotime(mysql_escape_mimic($event["startdate"]))))."','".str_replace('1970-01-01','',date('Y-m-d', strtotime(mysql_escape_mimic($event["enddate"]))))."','".mysql_escape_mimic($event["recurrence"])."','".mysql_escape_mimic($event["times"])."','".mysql_escape_mimic($event["location"])."','".mysql_escape_mimic($event["phone"])."','".mysql_escape_mimic($event["admission"])."','".mysql_escape_mimic($event["website"])."','".mysql_escape_mimic($event["imagefile"])."','".mysql_escape_mimic($event["address"])."','".mysql_escape_mimic($event["city"])."','".mysql_escape_mimic($event["state"])."','".mysql_escape_mimic($event["zip"])."','".mysql_escape_mimic($event["latitude"])."','".mysql_escape_mimic($event["longitude"])."','".mysql_escape_mimic($event["featured"])."','".mysql_escape_mimic($event["listingid"])."','".mysql_escape_mimic($event["starttime"])."','".mysql_escape_mimic($event["endtime"])."')");
-			$wpdb->query("DELETE FROM `sv_temp_event_categories` WHERE `eventid` = '".$event["eventid"]."'");
-			$eventcategories = (!empty($event["eventcategories"]["eventcategory"]["categoryid"])) ? $event["eventcategories"] : $event["eventcategories"]["eventcategory"];
+	    $wpdb->query("DELETE FROM `sv_temp_events`");
+	    if(!empty($eventsArray["events"]["event"])) {
+	        foreach($eventsArray["events"]["event"] as $event){
+		    $eventType = $event['eventtype'];
+		    $eventStartTime = strtotime($event['startdate']);
+		    $futureEvent = $eventType == "One-Time Event" && $eventStartTime >= $currentTime;
+		    $recurringEvent = $eventType == "Ongoing Event";
+		    // Only cache events that are in the future or are recurring
+		    if ($futureEvent || $recurringEvent) {
+		        $wpdb->query("INSERT INTO `sv_temp_events` (`eventid`,`eventtype`,`title`,`description`,`startdate`,`enddate`,`recurrence`,`times`,`location`,`phone`,`admission`,`website`,`imagefile`,`address`,`city`,`state`,`zip`,`latitude`,`longitude`,`featured`,`listingid`,`starttime`,`endtime`) values ('".mysql_escape_mimic($event["eventid"])."','".mysql_escape_mimic($event["eventtype"])."','".mysql_escape_mimic($event["title"])."','".mysql_escape_mimic($event["description"])."','".str_replace('1970-01-01','',date('Y-m-d', strtotime(mysql_escape_mimic($event["startdate"]))))."','".str_replace('1970-01-01','',date('Y-m-d', strtotime(mysql_escape_mimic($event["enddate"]))))."','".mysql_escape_mimic($event["recurrence"])."','".mysql_escape_mimic($event["times"])."','".mysql_escape_mimic($event["location"])."','".mysql_escape_mimic($event["phone"])."','".mysql_escape_mimic($event["admission"])."','".mysql_escape_mimic($event["website"])."','".mysql_escape_mimic($event["imagefile"])."','".mysql_escape_mimic($event["address"])."','".mysql_escape_mimic($event["city"])."','".mysql_escape_mimic($event["state"])."','".mysql_escape_mimic($event["zip"])."','".mysql_escape_mimic($event["latitude"])."','".mysql_escape_mimic($event["longitude"])."','".mysql_escape_mimic($event["featured"])."','".mysql_escape_mimic($event["listingid"])."','".mysql_escape_mimic($event["starttime"])."','".mysql_escape_mimic($event["endtime"])."')");
+		        $wpdb->query("DELETE FROM `sv_temp_event_categories` WHERE `eventid` = '".$event["eventid"]."'");
+		        $eventcategories = (!empty($event["eventcategories"]["eventcategory"]["categoryid"])) ? $event["eventcategories"] : $event["eventcategories"]["eventcategory"];
+
 			foreach($eventcategories as $eventcategory){
-				if (!empty($eventcategory["categoryname"]))
-					$wpdb->query("INSERT INTO `sv_temp_event_categories` (`eventid`,`categoryid`,`categoryname`) values ('".mysql_escape_mimic($event["eventid"])."','".mysql_escape_mimic($eventcategory["categoryid"])."','".mysql_escape_mimic($eventcategory["categoryname"])."')");
+			    if (!empty($eventcategory["categoryname"])) {
+			        $wpdb->query("INSERT INTO `sv_temp_event_categories` (`eventid`,`categoryid`,`categoryname`) values ('".mysql_escape_mimic($event["eventid"])."','".mysql_escape_mimic($eventcategory["categoryid"])."','".mysql_escape_mimic($eventcategory["categoryname"])."')");
+			    }
 			}
-			$wpdb->query("DELETE FROM `sv_temp_event_dates` WHERE `eventid` = '".$event["eventid"]."'");
-			$eventdates = (is_array($event["eventdates"]["eventdate"])) ? $event["eventdates"]["eventdate"] : $event["eventdates"];
-			foreach($eventdates as $eventdate){
-				if (!empty($eventdate))
-					$wpdb->query("INSERT INTO `sv_temp_event_dates` (`eventid`,`eventdate`) values ('".mysql_escape_mimic($event["eventid"])."','".str_replace('1970-01-01','',date('Y-m-d', strtotime(mysql_escape_mimic($eventdate))))."')");
-			}
-			$wpdb->query("DELETE FROM `sv_temp_event_images` WHERE `eventid` = '".$event["eventid"]."'");
-			$eventimages = (!empty($event["images"]["image"])) ? ((!empty($event["images"]["image"]["mediafile"])) ? $event["images"] : $event["images"]["image"]) : array();
-			foreach($eventimages as $eventimage){
-				if (!empty($eventimage["mediafile"]))
-					$wpdb->query("INSERT INTO `sv_temp_event_images` (`eventid`,`mediafile`,`sortorder`) values ('".mysql_escape_mimic($event["eventid"])."','".mysql_escape_mimic($eventimage["mediafile"])."','".mysql_escape_mimic($eventimage["sortorder"])."')");
-			}
-		}
-	}
+
+		        $wpdb->query("DELETE FROM `sv_temp_event_dates` WHERE `eventid` = '".$event["eventid"]."'");
+		        $eventdates = (is_array($event["eventdates"]["eventdate"])) ? $event["eventdates"]["eventdate"] : $event["eventdates"];
+
+		        foreach($eventdates as $eventdate) {
+			    if (!empty($eventdate)) {
+			        $wpdb->query("INSERT INTO `sv_temp_event_dates` (`eventid`,`eventdate`) values ('".mysql_escape_mimic($event["eventid"])."','".str_replace('1970-01-01','',date('Y-m-d', strtotime(mysql_escape_mimic($eventdate))))."')");
+			    }
+		        }
+
+		        $wpdb->query("DELETE FROM `sv_temp_event_images` WHERE `eventid` = '".$event["eventid"]."'");
+
+		        $eventimages = (!empty($event["images"]["image"])) ? ((!empty($event["images"]["image"]["mediafile"])) ? $event["images"] : $event["images"]["image"]) : array();
+
+		        foreach($eventimages as $eventimage) {
+			    if (!empty($eventimage["mediafile"])) {
+			        $wpdb->query("INSERT INTO `sv_temp_event_images` (`eventid`,`mediafile`,`sortorder`) values ('".mysql_escape_mimic($event["eventid"])."','".mysql_escape_mimic($eventimage["mediafile"])."','".mysql_escape_mimic($eventimage["sortorder"])."')");
+			    }
+		        }
+		    }
+	        }
+	    }
+    	}
 
 	// coupons
 	$recCount = 0;
