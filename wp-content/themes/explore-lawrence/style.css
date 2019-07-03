@@ -1102,3 +1102,9 @@ p.wp-caption-text {
 .sv_api_section_body {
 	font-size: 1.2rem;
 }
+
+.upcoming-events-area {
+	clear:both;
+	float:left;
+	margin-top:20px;
+}
