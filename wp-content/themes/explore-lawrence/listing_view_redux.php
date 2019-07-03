@@ -112,9 +112,9 @@
 			$selected_all_1 = ($sc && $sc == 'ALL') ? 'selected' : '';
 		    $subcatResults = '<option value="ALL" '.$selected_all_1.'>All</option>';
 
-			if ($sc == '88') {
+			/*if ($sc == '88') {
 			  	$subcatResults .= '<option value="88" '.$selected.'>JO 2017</option>';
-			}
+			}*/
 
 			foreach($subcats as $subcat){
 		  		$selected = (!empty($sc) && $subcat->sub_cat_id == $sc) ? 'selected' : '';
