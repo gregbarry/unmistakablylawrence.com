@@ -221,7 +221,10 @@
 	$xml=simplexml_load_string($myXMLData, null, LIBXML_NOCDATA) or die("Error: Cannot create object");
 	$json = json_encode($xml);
 	$eventsArray = json_decode($json,TRUE);
-    	$currentTime = time();
+
+	// Since this cron can run multiple times in a day, we should set the 
+	// threshold for yesterday to determine future events
+    	$timeThreshold = strtotime('-1 day');
 
 	if ($eventsArray["success"] == 'Yes'){
 		$wpdb->query("DELETE FROM `sv_temp_events`");
@@ -232,7 +235,7 @@
 			foreach($eventsArray["events"]["event"] as $event) {
 				$eventType = $event['eventtype'];
 				$eventStartTime = strtotime($event['startdate']);
-				$futureEvent = $eventType == "One-Time Event" && $eventStartTime >= $currentTime;
+				$futureEvent = $eventType == "One-Time Event" && $eventStartTime >= $timeThreshold;
 				$recurringEvent = $eventType == "Ongoing Event";
 				// Only cache events that are in the future or are recurring
 				if ($futureEvent || $recurringEvent) {
