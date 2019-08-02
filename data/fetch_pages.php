@@ -40,7 +40,7 @@ $page_position = (($page_number-1) * $item_per_page);
 $sql = "SELECT DISTINCT (e.eventid + '-' + d.eventdate), e.*, d.eventdate,
 		(SELECT GROUP_CONCAT(CONCAT(categoryname,':',categoryid))
 		FROM sv_event_categories c WHERE c.eventid = e.eventid ) AS concats,
-		(SELECT group_concat(mediafile)
+		(SELECT GROUP_CONCAT(mediafile SEPARATOR '||')
 		FROM sv_event_images i WHERE e.eventid = i.eventid) as event_images
 		FROM sv_events e, sv_event_dates d, sv_event_categories c
 		WHERE d.eventid = e.eventid
@@ -56,10 +56,9 @@ $statement = $dbh->query($sql);
 $events = $statement->fetchAll(PDO::FETCH_OBJ);
 
 foreach($events as $listing){
-
   $categorylist = '';
-  $images = ($listing->event_images) ? $listing->event_images : null;
-  $date1      = DateTime::createFromFormat('Y \- m \- d', $listing->eventdate);
+  $images = $listing->event_images ? explode("||", $listing->event_images) : null;
+  $date1 = DateTime::createFromFormat('Y \- m \- d', $listing->eventdate);
   $event_date = $date1->format('F d, Y');
   $sd_data    = $date1->format('Ymd');
   $cat_array = explode(",", $listing->concats);
@@ -170,19 +169,20 @@ foreach($events as $listing){
   $more_details .= '</br><div class="detail-item">'.$admission.'</div>';
 
   $extraimages = '';
+  $imagesCount = count($images);
 
-  if (count($images) > 1) {
+  if ($imagesCount > 1) {
     $i = 0;
     foreach ($images as $theImgURL){
       $extraimages .= ($i > 0) ? '<img class="event-thumb" rel="gal-'.$listing->eventid.'" src="'.$theImgURL.'" alt="">' : "";
       $i++;
     }
     $more_details .= '</br><div class="detail-item images">'.$extraimages.'</div>';
-  } else if (count($images) == 1) {
+  } else if ($imagesCount == 1) {
     $extraimages = '<img class="event-thumb" rel="gal-'.$listing->eventid.'" src="'.$image.'" alt="">';
   }
 
-  if (count($images) >= 1) {
+  if ($imagesCount >= 1) {
     $alt = '';
     $image = '<img src="'.$images[0].'" alt="'.$alt.'">';
   } else {
