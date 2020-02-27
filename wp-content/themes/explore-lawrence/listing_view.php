@@ -225,15 +225,15 @@ function listing_view_content_new()
     }
 
     // If you want to show the landing content for the map page remove "|| (get_field('select_a_category') == 'map')" from the view 2 above
+    $sc = $_REQUEST['sc'];
+    $prefix = '';
 
-    if ($_REQUEST['sc'] != '88') {
+    if ($sc != '88') {
         $noOther = "AND r.region_id != 6";
     }
 
     if ($pagename == "junior-olympics-accommodations") {
-
         $featured = "NULL";
-
         $distance_query = ($distance) ? "AND i2.value = '" . $distance . "'" : "";
         $rate_query = ($rate) ? "AND i.value = '" . $rate . "'" : "";
 
@@ -256,50 +256,81 @@ function listing_view_content_new()
 			" . $rate_query . "
 			AND l.listing_id = IFNULL(" . $listing_id . ",l.listing_id)
             ORDER BY i4.value ASC, i2.value ASC, l.sort_company ASC");
-
-            //ORDER BY i2.value ASC");
-			//ORDER BY ,l.sort_company ASC")
-            //
     } else {
-        $listings = $wpdb->get_results("
-			SELECT DISTINCT c.name as category, l.*, ai.value as `Featured`, ai2.value as `Teaser`, r.name as `region`
-			FROM sv_listings l
-			INNER JOIN sv_categories c ON c.cat_id = l.cat_id AND c.is_deleted = '0'
-			INNER JOIN sv_subcategories sc ON sc.cat_id = l.cat_id AND sc.is_deleted = '0'
-			INNER JOIN sv_listings_subcategories_XREF x ON x.sub_cat_id = sc.sub_cat_id AND x.listing_id = l.listing_id AND x.is_deleted = '0' AND x.sub_cat_id != 88
-			INNER JOIN sv_regions r ON r.cat_id = c.cat_id AND r.region_id = l.region_id AND r.is_deleted = '0'
-			LEFT JOIN sv_additional_information ai ON ai.listing_id = l.listing_id AND ai.is_deleted = '0' AND ai.name = 'Featured'
-			LEFT JOIN sv_additional_information ai2 ON ai2.listing_id = l.listing_id AND ai2.is_deleted = '0' AND ai2.name = 'Teaser'
-			WHERE l.is_deleted = '0'
-				AND c.cat_id = IFNULL(" . $selectedCategory . ",c.cat_id)
-				AND sc.sub_cat_id = IFNULL(" . $sub_cat_id . ",sc.sub_cat_id)
-				AND r.region_id = IFNULL(" . $reg_id . ",r.region_id)
-				" . $noOther . "
-				AND l.listing_id = IFNULL(" . $listing_id . ",l.listing_id)
-				AND ai.value = IFNULL(" . $featured . ",ai.value)
-			ORDER BY l.sort_company ASC;");
+        $specificListings = get_field('specific_listing_ids');
 
-        $temp = $featured;
-        $featured = "'Yes'";
-        $featured_listings = $wpdb->get_results("
-			SELECT DISTINCT c.name as category, l.*, ai.value as `Featured`, ai2.value as `Teaser`, r.name as `region`
-			FROM sv_listings l
-			INNER JOIN sv_categories c ON c.cat_id = l.cat_id AND c.is_deleted = '0'
-			INNER JOIN sv_subcategories sc ON sc.cat_id = l.cat_id AND sc.is_deleted = '0'
-			INNER JOIN sv_listings_subcategories_XREF x ON x.sub_cat_id = sc.sub_cat_id AND x.listing_id = l.listing_id AND x.is_deleted = '0' AND x.sub_cat_id != 88
-			INNER JOIN sv_regions r ON r.cat_id = c.cat_id AND r.region_id = l.region_id AND r.is_deleted = '0'
-			LEFT JOIN sv_additional_information ai ON ai.listing_id = l.listing_id AND ai.is_deleted = '0' AND ai.name = 'Featured'
-			LEFT JOIN sv_additional_information ai2 ON ai2.listing_id = l.listing_id AND ai2.is_deleted = '0' AND ai2.name = 'Teaser'
-			WHERE l.is_deleted = '0'
-				AND c.cat_id = IFNULL(" . $selectedCategory . ",c.cat_id)
-				AND sc.sub_cat_id = IFNULL(" . $sub_cat_id . ",sc.sub_cat_id)
-				AND r.region_id = IFNULL(" . $reg_id . ",r.region_id)
-				AND l.listing_id = IFNULL(" . $listing_id . ",l.listing_id)
-				AND ai.value = IFNULL(" . $featured . ",ai.value)
-			ORDER BY ai.value DESC, l.sort_company ASC;");
-        $featured_count = count($featured_listings);
+        if ($specificListings) {
+            $featured = "NULL";
+            $query = "
+                SELECT DISTINCT c.name as category, l.*, ai.value as `Featured`, ai2.value as `Teaser`, r.name as `region`
+                    FROM sv_listings l
+                    INNER JOIN sv_categories c ON c.cat_id = l.cat_id AND c.is_deleted = '0'
+                    INNER JOIN sv_regions r ON r.cat_id = c.cat_id AND r.region_id = l.region_id AND r.is_deleted = '0'
+                    LEFT JOIN sv_additional_information ai ON ai.listing_id = l.listing_id AND ai.is_deleted = '0' AND ai.name = 'Featured'
+                    LEFT JOIN sv_additional_information ai2 ON ai2.listing_id = l.listing_id AND ai2.is_deleted = '0' AND ai2.name = 'Teaser'
+                    WHERE l.is_deleted = '0' AND l.listing_id IN (".$specificListings.")
+                    ORDER BY l.sort_company ASC;";
+        } else {
+            $query = "
+                SELECT DISTINCT c.name as category, l.*, ai.value as `Featured`, ai2.value as `Teaser`, r.name as `region`
+                    FROM sv_listings l
+                    INNER JOIN sv_categories c ON c.cat_id = l.cat_id AND c.is_deleted = '0'
+                    INNER JOIN sv_subcategories sc ON sc.cat_id = l.cat_id AND sc.is_deleted = '0'
+                    INNER JOIN sv_listings_subcategories_XREF x ON x.sub_cat_id = sc.sub_cat_id AND x.listing_id = l.listing_id AND x.is_deleted = '0' AND x.sub_cat_id != 88
+                    INNER JOIN sv_regions r ON r.cat_id = c.cat_id AND r.region_id = l.region_id AND r.is_deleted = '0'
+                    LEFT JOIN sv_additional_information ai ON ai.listing_id = l.listing_id AND ai.is_deleted = '0' AND ai.name = 'Featured'
+                    LEFT JOIN sv_additional_information ai2 ON ai2.listing_id = l.listing_id AND ai2.is_deleted = '0' AND ai2.name = 'Teaser'
+                    WHERE l.is_deleted = '0'
+                        AND c.cat_id = IFNULL(" . $selectedCategory . ",c.cat_id)
+                        AND sc.sub_cat_id = IFNULL(" . $sub_cat_id . ",sc.sub_cat_id)
+                        AND r.region_id = IFNULL(" . $reg_id . ",r.region_id)
+                        " . $noOther . "
+                        AND l.listing_id = IFNULL(" . $listing_id . ",l.listing_id)
+                        AND ai.value = IFNULL(" . $featured . ",ai.value)
+                    ORDER BY l.sort_company ASC;";
 
-        $featured = $temp;
+            $temp = $featured;
+            $featured = "'Yes'";
+            $featured_listings = $wpdb->get_results("
+                SELECT DISTINCT c.name as category, l.*, ai.value as `Featured`, ai2.value as `Teaser`, r.name as `region`
+                    FROM sv_listings l
+                    INNER JOIN sv_categories c ON c.cat_id = l.cat_id AND c.is_deleted = '0'
+                    INNER JOIN sv_subcategories sc ON sc.cat_id = l.cat_id AND sc.is_deleted = '0'
+                    INNER JOIN sv_listings_subcategories_XREF x ON x.sub_cat_id = sc.sub_cat_id AND x.listing_id = l.listing_id AND x.is_deleted = '0' AND x.sub_cat_id != 88
+                    INNER JOIN sv_regions r ON r.cat_id = c.cat_id AND r.region_id = l.region_id AND r.is_deleted = '0'
+                    LEFT JOIN sv_additional_information ai ON ai.listing_id = l.listing_id AND ai.is_deleted = '0' AND ai.name = 'Featured'
+                    LEFT JOIN sv_additional_information ai2 ON ai2.listing_id = l.listing_id AND ai2.is_deleted = '0' AND ai2.name = 'Teaser'
+                    WHERE l.is_deleted = '0'
+                        AND c.cat_id = IFNULL(" . $selectedCategory . ",c.cat_id)
+                        AND sc.sub_cat_id = IFNULL(" . $sub_cat_id . ",sc.sub_cat_id)
+                        AND r.region_id = IFNULL(" . $reg_id . ",r.region_id)
+                        AND l.listing_id = IFNULL(" . $listing_id . ",l.listing_id)
+                        AND ai.value = IFNULL(" . $featured . ",ai.value)
+                    ORDER BY ai.value DESC, l.sort_company ASC;");
+            $featured_count = count($featured_listings);
+            $featured = $temp;
+        }
+
+        $listings = $wpdb->get_results($query);
+
+        if ($specificListings) {
+            $catId = $listings[0]->cat_id;
+
+            switch ($catId) {
+                case '1':
+                    $prefix = '/explore/stay';
+                    break;
+                case '2':
+                    $prefix = '/explore/see';
+                    break;
+                case '3':
+                    $prefix = '/explore/eat';
+                    break;
+                case '6':
+                    $prefix = '/explore/shop';
+                    break;
+            }
+        }
     }
 
     if ($view == '1') {
@@ -634,18 +665,22 @@ function listing_view_content_new()
                 }
                 $address_string = str_replace(' ', '+', $address_string);
                 $featured = '';
-                $list .= '<div class="listing-item"><div class="listing-item-wrap"><a href="?listingID=' . $listingid . '"><div class="listing-image">';
+
+                $list .= '<div class="listing-item"><div class="listing-item-wrap">
+                    <a href="'. $prefix .'?listingID=' . $listingid . '">
+                        <div class="listing-image">';
 
                 if ($view == '2') {
                     $list .= '<div class="list-number">' . $num . '</div>';
                 }
+
                 $list .= '<img src="' . $image . '" alt="' . $alt . '">
 					</div>
-				  </a>
-				  <div class="listing-content-area">
+				</a>
+				<div class="listing-content-area">
 					<div class="listing-title">
-					<a href="?listingID=' . $listingid . '">
-					  <h3>' . $company . '</h3>
+					<a href="'. $prefix .'?listingID=' . $listingid . '">
+				        <h3>' . $company . '</h3>
 					</a>
 					</div>
 					<div class="listing-content">
@@ -654,7 +689,7 @@ function listing_view_content_new()
 					' . $weburl . '
 					<a href="https://www.google.com/maps/dir/Current+Location/' . $address_string . '" target="_blank" class="directions-link">Get Directions</a>
 					</div>
-				  </div>
+				    </div>
 				</div>
 				' . $featured . '
 				</div>';
